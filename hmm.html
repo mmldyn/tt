@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan & Galeri Tommy & Tasya</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
+    <style>
+        /* --- [START] GAYA DASAR & OVERLAY BARU --- */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            font-family: 'Poppins', sans-serif;
+            background-color: #2c2c2c;
+        }
+
+        #initial-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 10001; /* Paling atas */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            cursor: pointer;
+            transition: opacity 0.7s ease-out;
+        }
+
+        #initial-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .overlay-content p {
+            font-size: 1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border: 1px solid white;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        /* --- [END] GAYA OVERLAY BARU --- */
+
+        /* --- [START] GAYA COVER --- */
+        .cover-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('WhatsApp Image 2025-09-17 at 16.30.55_4d5962ba.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            z-index: 10000; /* Di bawah overlay awal */
+            transition: opacity 0.7s ease-out;
+        }
+
+        .cover-container.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .btn-open {
+            background-color: white;
+            color: black;
+            padding: 12px 28px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+        }
+
+        .btn-open:hover {
+            background-color: #f1f1f1;
+        }
+        /* --- [END] GAYA COVER --- */
+
+        /* --- [START] GAYA GALERI --- */
+        #main-content {
+            color: #fff;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('https://images.unsplash.com/photo-1518063319281-29e6b696c76e?q=80&w=1974&auto=format&fit=crop');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        .header {
+            text-align: center;
+            padding: 50px 20px 30px 20px;
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin: 0;
+            font-weight: 700;
+            color: #f0e6d2;
+            font-style: italic;
+        }
+
+        .header h1::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 2px;
+            background-color: #f0e6d2;
+            margin: 10px auto 0;
+        }
+        
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 8px;
+            padding: 10px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.3s ease, filter 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            filter: brightness(1.1);
+        }
+
+        .gallery-footer {
+            text-align: center;
+            padding: 30px 20px 50px 20px;
+            font-size: 1.2rem;
+            color: #ccc;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 99999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 85%;
+            animation: zoomIn 0.3s ease;
+        }
+        
+        .close-button {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-button:hover {
+            color: #bbb;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.8); }
+            to { transform: scale(1); }
+        }
+        /* --- [END] GAYA GALERI --- */
+    </style>
+</head>
+<body>
+
+    <div id="initial-overlay">
+        <div class="overlay-content">
+            <p>Tekan untuk Buka</p>
+        </div>
+    </div>
+
+    <div id="main-content">
+        <header class="header">
+            <h1>Our Gallery</h1>
+        </header>
+        <main>
+            <div class="gallery-container">
+                <img src="../images/WhatsApp Image 2025-09-17 at 14.40.39_db658631.jpg" alt="Gallery Photo 1" class="gallery-item">
+                <img src="../images/WhatsApp Image 2025-09-17 at 14.42.12_0d15dd9a.jpg" alt="Gallery Photo 2" class="gallery-item">
+                <img src="../images/WhatsApp Image 2025-09-17 at 14.42.12_2f968866.jpg" alt="Gallery Photo 3" class="gallery-item">
+                <img src="../images/WhatsApp Image 2025-09-17 at 14.42.45_11bd9a62.jpg" alt="Gallery Photo 4" class="gallery-item">
+                <img src="../images/WhatsApp Image 2025-09-17 at 14.44.10_a2cedc27.jpg" alt="Gallery Photo 5" class="gallery-item">
+                <img src="../images/WhatsApp Image 2025-09-17 at 14.44.10_bca3b90a.jpg" alt="Gallery Photo 6" class="gallery-item">
+                <img src="../images/WhatsApp Image 2025-09-17 at 16.27.40_6df5dbcb.jpg" alt="Gallery Photo 7" class="gallery-item">
+                <img src="../images/WhatsApp Image 2025-09-17 at 16.28.32_0b983aee.jpg" alt="Gallery Photo 8" class="gallery-item">
+                <img src="../images/WhatsApp Image 2025-09-17 at 16.29.09_01e90979.jpg" alt="Gallery Photo 9" class="gallery-item">
+                <img src="../images/WhatsApp Image 2025-09-17 at 16.29.36_7705cef8.jpg" alt="Gallery Photo 10" class="gallery-item">
+                <img src="../images/WhatsApp Image 2025-09-17 at 16.30.55_4d5962ba.jpg" alt="Gallery Photo 11" class="gallery-item">
+                <img src="../images/WhatsApp Image 2025-09-17 at 16.29.57_ea820ece.jpg" alt="Gallery Photo 12" class="gallery-item">
+            </div>
+            <div class="gallery-footer">
+                inseparable with Volkswagen
+            </div>
+        </main>
+    </div>
+    
+    <div id="lightbox" class="lightbox">
+        <span class="close-button">&times;</span>
+        <img class="lightbox-content" id="lightbox-image">
+    </div>
+
+    <audio id="background-music" loop src="music.mp3"></audio>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Variabel Elemen ---
+            const initialOverlay = document.getElementById('initial-overlay');
+            const music = document.getElementById('background-music');
+            const openButton = document.getElementById('open-invitation-button');
+            const coverPage = document.getElementById('cover-page');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImage = document.getElementById('lightbox-image');
+            const closeButton = document.querySelector('.close-button');
+
+            // --- FUNGSI 1: Klik Overlay Awal ---
+            initialOverlay.addEventListener('click', function() {
+                music.play().catch(error => console.log("Autoplay dicegah oleh browser."));
+                initialOverlay.classList.add('hidden');
+            }, { once: true }); // Opsi `{ once: true }` agar event hanya berjalan sekali
+
+            // --- FUNGSI 2: Klik Tombol Buka Undangan ---
+            openButton.addEventListener('click', function() {
+                coverPage.classList.add('hidden');
+            });
+
+            // --- FUNGSI 3: Fungsionalitas Galeri & Lightbox ---
+            galleryItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    lightbox.classList.add('active');
+                    lightboxImage.src = item.src;
+                });
+            });
+
+            function closeLightbox() {
+                lightbox.classList.remove('active');
+            }
+
+            closeButton.addEventListener('click', closeLightbox);
+            
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) {
+                    closeLightbox();
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
