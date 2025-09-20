@@ -163,20 +163,19 @@
         }
 
         .lightbox {
-            display: none;
+            /* display: none; */ /* Baris ini dinonaktifkan */
+            display: flex; /* Langsung set ke flex */
+            visibility: hidden; /* Sembunyikan dengan visibility */
+            opacity: 0; /* Buat transparan */
+            transition: opacity 0.3s ease, visibility 0s 0.3s; /* Tambahkan transisi */
             position: fixed;
-            z-index: 99999;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            justify-content: center;
-            align-items: center;
+            /* ... sisa kode ... */
         }
-
+        
         .lightbox.active {
-            display: flex;
+            visibility: visible; /* Tampilkan kembali */
+            opacity: 1; /* Buat tidak transparan */
+            transition: opacity 0.3s ease;
         }
 
         .lightbox-content {
@@ -273,7 +272,7 @@
             // --- FUNGSI 3: Fungsionalitas Galeri & Lightbox ---
             galleryItems.forEach(item => {
                 item.addEventListener('click', () => {
-                    lightbox.classList.add('active');
+                    lightbox.classList.add('active'); // Baris ini sekarang akan bekerja
                     lightboxImage.src = item.src;
                 });
             });
@@ -295,4 +294,5 @@
 </body>
 
 </html>
+
 
